@@ -1,4 +1,5 @@
-= fahrplandump =
+fahrplandump
+============
 
 This repository contains a script to dump a Fahrplan out of a frab
 installation.
@@ -13,7 +14,8 @@ Note: As for now, the user for the export script needs full access on the
 converence to be eported, as only this permission allows downloading the
 exported schedule.
 
-== Setup ==
+Setup
+-----
 
 In order to run the script, you will need python2 and the following
 extensions:
@@ -24,7 +26,8 @@ After installing the necessary extensions, please copy the
 `config.py.example` file to `config.py` and modify it according your system
 needs.
 
-== Cloning the Fahrplan ==
+Cloning the Fahrplan
+--------------------
 
 To download the Fahrplan, a current export of the Fahrplan must have been
 created manually by some user. The script will always check and download the

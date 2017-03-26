@@ -1,0 +1,57 @@
+import getpass
+
+# user configurateion.
+USERNAME=""
+PASSWORD=""
+
+# storage location for cookies.
+COOKIEJAR="/tmp/fahrplanexport-cookies.txt"
+
+# conference information
+ACRONYM="33c3"
+YEAR="2016"
+CONFERENCE="congress"
+EXPORT_LOCALE="en"
+
+# location information for frab system. this section defines several
+# url-fragments that are used to access the different endpoints on
+# the frab system.
+LOGIN_HOST="https://frab.cccv.de"
+LOGIN_URL="%s/en/session/new?conference_acronym=%s" % (LOGIN_HOST, ACRONYM)
+LOGIN_SUBMIT="%s/en/session?conference_acronym=%s" % (LOGIN_HOST, ACRONYM)
+VERSION_URL="%s/en/%s/public/schedule" % (LOGIN_HOST, ACRONYM)
+EXPORT_URL="%s/en/%s/schedule/html_exports" % (LOGIN_HOST, ACRONYM)
+STATIC_EXPORT="%s/en/%s/schedule/download_static_export?export_locale=%s" % (LOGIN_HOST, ACRONYM, EXPORT_LOCALE)
+
+# destination to move the exported Fahrplan to
+DESTINATION="/var/www/%s/%s" % (CONFERENCE, YEAR)
+
+# location to provide the Fahrplan at
+PURGEBASE="/%s/%s/Fahrplan" % (CONFERENCE, YEAR)
+SERVERNAME="fahrplan.events.ccc.de"
+
+# purging information for caching frontends. this defines the access
+# locations as well as the hostname override to be used for curl to properly
+# purge cache content for the right virtual host.
+PURGEIP="127.0.0.1"
+PURGEADDR="%s:80:%s" % (SERVERNAME, PURGEIP)
+
+# additional pages to be accessed to trigger events like purging related
+# wiki-pages. this is actually a list of URLs that are accessed via HTTP
+# GET.
+#ADDITIONAL=["/%s/%s/wiki/index.php?title=Static:Schedule&action=purge" % (YEAR, CONFERENCE)]
+ADDITIONAL=[]
+
+# optional external resources to be crawled. this can be merged into the
+# schedule. vor events.ccc.de we use this to crawl a merged schedule from
+# c3voc locations.
+# EXTERNAL=["http://data.c3voc.de/33C3/everything.schedule.xml", "http://data.c3voc.de/33C3/everything.schedule.json", "http://data.c3voc.de/33C3/workshops.schedule.json", "http://data.c3voc.de/33C3/workshops.schedule.xml", "http://data.c3voc.de/33C3/sessions_complete.json"]
+EXTERNAL=[]
+
+if USERNAME == "":
+	USERNAME=raw_input("Username: ")
+
+if PASSWORD == "":
+	PASSWORD=getpass.getpass()
+
+

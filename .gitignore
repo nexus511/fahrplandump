@@ -1,0 +1,7 @@
+config.py
+*.pyc
+version
+all_versions
+fahrplan_unpack
+external
+

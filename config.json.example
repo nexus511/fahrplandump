@@ -1,0 +1,40 @@
+{
+    "tempdir": "tmp",
+
+	"frab": {
+		"hostname":  "frab.example.com",
+		"schema":    "https",
+    	"username":  "user@frab.example.com",
+    	"password":  "secr3t"
+    },
+
+	"sites": {
+		"signInForm":     "users/sign_in",
+		"htmlExportForm": "%s/schedule/html_exports",
+		"htmlDownload":   "%s/schedule/download_static_export?export_locale=%s",
+		"profilePath":    "profile"
+	},
+
+    "web": {
+    	"hostname":  "www.example.com",
+    	"schema":    "http",
+    	"webroot":   "/var/www/www.example.com/htdocs/",
+	    "caches":    [
+	    	{
+	    		"address": "127.0.0.1",
+	    		"port":    "8080"
+	    	}
+	    ]
+    },
+
+	"conferences": [
+		{
+			"acronym":  "example", 
+			"location": "conferences/example"
+		},
+		{
+			"acronym":  "conference",
+			"location": "conferences/conference"
+		}
+	]
+}

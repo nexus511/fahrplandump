@@ -36,7 +36,7 @@ def updateAllConferences(client, purger, config, session):
         if oldVersion != newVersion:
             logging.info("%s: last was %s and new is %s" % (conference, oldVersion, newVersion))
             try:
-                updateConference(client, config, conference)
+                updateConference(client, purger, config, conference)
                 logging.info("set oldversion for %s to %s" % (conference, newVersion))
                 session.setLastVersion(conference, newVersion)
                 session.save()

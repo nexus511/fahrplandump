@@ -28,7 +28,7 @@ def makeConnection(config, session):
         client.login()
     return client
 
-def updateAllConferences(client, config, session):
+def updateAllConferences(client, purger, config, session):
     for conference in config.getConferenceNames():
         oldVersion = session.getLastVersion(conference)
         newVersion = client.getVersion(conference)

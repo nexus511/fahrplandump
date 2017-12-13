@@ -171,23 +171,19 @@ class FrabClient(object):
         cookie = self.__session.getCookie()
         self.__log.info("our cookie is %s" % (cookie))
         
-        # now we need our CSRL token
-        self.__log.info("acquire CSRF token")
-        url = self.__joinUrl(self.__config.getSignInForm())
-        self.__checkResponse(self.curl.query(url))
+        ## now we need our CSRF token
         tree = self.__getHtmlTree()
         token = tree.xpath(".//meta[@name='csrf-token']")[0].attrib["content"]
         self.__log.info("out CSRF token is %s" % (token))
         
         # perform actual login
         self.__log.info("perform login")
-        url = self.__joinUrl(self.__config.getSignInSubmit())
-        loginData = [ "authenticity_token=" + token,
-                      "user[email]=" + self.__config.getUsername(),
+        url = self.__joinUrl(self.__config.getSignInSubmit()) + "?locale=en"
+        loginData = [ "user[email]=" + self.__config.getUsername(),
                       "user[password]=" + self.__config.getPassword(),
                       "user[remember_me]=1",
-                      "utf8=%E2%9C%93",
-                      "button=" ]
+                      "authenticity_token=" + token,
+                      ]
         rc = self.curl.query(url, "&".join(loginData))
         self.__checkResponse(rc, code = 302)
         

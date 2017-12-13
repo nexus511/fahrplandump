@@ -106,4 +106,7 @@ ENV/
 .settings
 config.json
 session.json
+run.sh
+web
+tmp
 

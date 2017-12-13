@@ -6,6 +6,7 @@ from lxml import etree
 import time
 import json
 import os
+import traceback
 
 class ClientException(Exception):
     '''
@@ -201,9 +202,10 @@ class FrabClient(object):
             raise ClientException("login failed")
         self.__log.info("we have successfully been logged in")
 
-    def getVersion(self, conference, locale = "en"):
+    def getTimestamp(self, conference, locale = "en"):
         '''
-        Retrieves the version of the last export for the given locale (if any).
+        Retrieves the string defining the time of export and locale to uniquely
+        identify the exported version.
         
         @param conference: The conference to be checked.
         @param locale: The locale to request the fahrplan for.
@@ -222,6 +224,24 @@ class FrabClient(object):
             return None
         return exportString[0].text.strip()
     
+    def getVersionName(self, conference, locale = "en"):
+        '''
+        Retrieves the version string of the current "Fahrplan".
+        
+        @param conference: The conference to be checked.
+        @param locale: The locale to request the fahrplan for.
+        '''
+        url = self.__joinUrl(self.__config.getScheduleJson(conference, locale))
+        self.__log.info("request fahrplan version name via %s" % (url))
+        self.__checkResponse(self.curl.query(url))
+        try:
+            tree = self.__getJsonObject()
+            return tree["schedule"]["version"]
+        except Exception, e:
+            self.__log.info("failed to get version: %s" % (str(e)))
+            self.__log.debug(traceback.format_exc())
+        return None
+        
     def download(self, outfile, conference, locale = "en"):
         '''
         Downloads the fahrplan.
@@ -268,6 +288,12 @@ class FrabClient(object):
         return etree.parse(self.curl.getResponse(), parser,
                            base_url = self.curl.getUrl())
     
+    def __getJsonObject(self):
+        '''
+        Reads the JSON bject from the curl objects data.
+        '''
+        return json.load(self.curl.getResponse()) 
+        
     def __getHeader(self, field):
         '''
         Reads a specific field from the header of the last request. If this does

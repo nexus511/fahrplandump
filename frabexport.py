@@ -31,18 +31,28 @@ def makeConnection(config, session):
 def updateAllConferences(client, purger, config, session):
     for conference in config.getConferenceNames():
         oldVersion = session.getLastVersion(conference)
-        newVersion = client.getVersion(conference)
+        newVersion = client.getTimestamp(conference)
+        versionName = client.getVersionName(conference)
         
         if oldVersion != newVersion:
             logging.info("%s: last was %s and new is %s" % (conference, oldVersion, newVersion))
+            fp = open("trail.log", "a")
             try:
+                fp.write("%s: start update from %s to %s\n" % (conference, oldVersion, newVersion))
+                fp.flush()
+                
                 updateConference(client, purger, config, conference)
+                
+                fp.write("%s: updated to %s - %s\n" % (conference, newVersion, versionName))
+                fp.flush()
+
                 logging.info("set oldversion for %s to %s" % (conference, newVersion))
                 session.setLastVersion(conference, newVersion)
                 session.save()
             except Exception, e:
                 logging.error("updating %s failed: %s" % (conference, str(e)))
                 logging.debug(traceback.format_exc())
+            fp.close()
         else:
             logging.info("%s: version still %s" % (conference, newVersion))
 

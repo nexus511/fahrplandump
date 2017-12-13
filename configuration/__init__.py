@@ -80,6 +80,9 @@ class Config(object):
     def getHtmlDownload(self, conference, locale = "en"):
         return self.__values["sites"]["htmlDownload"] % (conference, locale)
     
+    def getScheduleJson(self, conference, locale = "en"):
+        return self.__values["sites"]["scheduleJson"] % (locale, conference)
+    
     def getProfilePath(self):
         return self.__values["sites"]["profilePath"]
 
@@ -112,3 +115,4 @@ class Config(object):
 
     def getCaches(self):
         return self.__values["web"]["caches"]
+    

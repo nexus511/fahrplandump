@@ -5,6 +5,7 @@ import logging
 from lxml import etree
 import time
 import json
+import os
 
 class ClientException(Exception):
     '''
@@ -289,7 +290,7 @@ class SessionManager(object):
         @param store: The file to store session information to.
         '''
         self.__log = logging.getLogger("SessionManager")
-        self.__store = store
+        self.__store = os.path.abspath(store)
         try:
             self.__initSession()
             self.__readSession()
@@ -372,5 +373,7 @@ class SessionManager(object):
         self.__log.info("try writing session to %s" % (self.__store))
         fp = open(self.__store, "wb")
         json.dump(self.__session, fp)
+        fp.close()
+        os.chmod(self.__store, 0600)
         self.__log.info("session data stored")
 

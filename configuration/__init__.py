@@ -15,10 +15,11 @@ class Config(object):
         @param file: The configuration file to be loaded.
         '''
         self.__log = logging.getLogger("Config")
-        self.__file = file
+        self.__file = os.path.abspath(file)
         self.__valid = False
 
         try:
+            os.chmod(self.__file, 0600)
             fp = open(self.__file, "rb")
             self.__values = json.load(fp)
             self.__checkConfig()

@@ -43,7 +43,8 @@ def updateAllConferences(client, purger, config, session):
                 
                 updateConference(client, purger, config, conference)
                 
-                fp.write("%s: updated to %s - %s\n" % (conference, newVersion, versionName))
+                line = "%s: updated to %s - %s\n" % (conference, newVersion, versionName)
+                fp.write(line.encode("utf-8"))
                 fp.flush()
 
                 logging.info("set oldversion for %s to %s" % (conference, newVersion))

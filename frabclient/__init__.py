@@ -232,7 +232,7 @@ class FrabClient(object):
         self.__checkResponse(self.curl.query(url))
         try:
             tree = self.__getJsonObject()
-            return tree["schedule"]["version"].encode("utf-8")
+            return tree["schedule"]["version"]
         except Exception, e:
             self.__log.info("failed to get version: %s" % (str(e)))
             self.__log.debug(traceback.format_exc())
